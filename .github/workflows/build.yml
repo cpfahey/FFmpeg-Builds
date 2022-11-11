@@ -17,8 +17,9 @@ on:
         type: boolean
         default: false
         required: false
-  schedule:
-    - cron: '0 12 * * *'
+  #### 2022 Nov 10 CF : Disabling schedule trigger because I don't want to needlessly use CPU, transfer bandwidth, or storage
+  ####schedule:
+  ####  - cron: '0 12 * * *'
 
 env:
   DOCKER_BUILDKIT: 1
