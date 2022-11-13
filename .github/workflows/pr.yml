@@ -17,19 +17,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [win64,linux64,linuxarm64]
-        variant: [lgpl,gpl 4.4,gpl 5.1,lgpl 4.4,lgpl 5.1,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,lgpl-shared 4.4,lgpl-shared 5.1]
+        # 2022 Nov 12 CF: For PR build testing, disabling all targets except "win64", to save workflow execution time for near-term dev work.
+        # Original statement:    target: [win64,linux64,linuxarm64]
+        target: [win64]
+        # 2022 Nov 12 CF: For PR build testing, disabling all variants except "gpl-shared 4.4", to save workflow execution time for near-term dev work.
+        # Original statement:    variant: [lgpl,gpl 4.4,gpl 5.1,lgpl 4.4,lgpl 5.1,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,lgpl-shared 4.4,lgpl-shared 5.1]
+        variant: [gpl-shared 4.4]
         quickbuild: [1]
         include:
           - target: win64
             variant: gpl
             quickbuild: ''
-          - target: linux64
-            variant: gpl
-            quickbuild: ''
-          - target: linuxarm64
-            variant: gpl
-            quickbuild: ''
+          # 2022 Nov 12 CF: For PR build testing, disabling all target-variant combinations except "win64"-"gpl".
+          # TO-DO: Figure out the meaning of this "include" parameter of "matrix".  How does it relate to "target" and "variant" options ?
+          #- target: linux64
+          #  variant: gpl
+          #  quickbuild: ''
+          #- target: linuxarm64
+          #  variant: gpl
+          #  quickbuild: ''
     steps:
       - name: Checkout
         uses: actions/checkout@v3
