@@ -1,12 +1,14 @@
 name: Test Full Build
-on:
-  pull_request:
-    branches:
-      - master
-    paths-ignore:
-      - '**.md'
-      - 'LICENSE'
-
+# 2022 Nov 12 CF: Making the "Test Full Build" workflow totally manual (i.e., only trigger on "workflow_dispatch")
+# Original code:
+#    on:
+#      pull_request:
+#        branches:
+#          - master
+#        paths-ignore:
+#          - '**.md'
+#          - 'LICENSE'
+on: workflow_dispatch
 env:
   DOCKER_BUILDKIT: 1
 

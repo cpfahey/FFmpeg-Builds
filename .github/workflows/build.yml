@@ -1,10 +1,12 @@
 name: Build FFmpeg
 
 on:
-  push:
-    paths-ignore:
-      - '**.md'
-      - 'LICENSE'
+  #### 2022 Nov 12 CF: Making the "Build FFmpeg" workflow totally manual (i.e., only trigger on "workflow_dispatch")
+  #### Original code:
+  ####    push:
+  ####      paths-ignore:
+  ####        - '**.md'
+  ####        - 'LICENSE'
   workflow_dispatch:
     inputs:
       doRelease:
@@ -18,8 +20,9 @@ on:
         default: false
         required: false
   #### 2022 Nov 10 CF : Disabling schedule trigger because I don't want to needlessly use CPU, transfer bandwidth, or storage
-  ####schedule:
-  ####  - cron: '0 12 * * *'
+  #### Original code:
+  ####       schedule:
+  ####         - cron: '0 12 * * *'
 
 env:
   DOCKER_BUILDKIT: 1
@@ -64,8 +67,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 2022 Nov 12 CF: Temporarily limiting build targets to only "win64".
-        # Original statement: target: [win64,linux64,linuxarm64]
+        #### 2022 Nov 12 CF: Temporarily limiting build targets to only "win64".
+        #### Original statement: target: [win64,linux64,linuxarm64]
         target: [win64]
     steps:
       - name: Checkout
@@ -102,11 +105,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 2022 Nov 12 CF: Temporarily limiting build targets to only "win64".
-        # Original statement: target: [win64,linux64,linuxarm64]
+        #### 2022 Nov 12 CF: Temporarily limiting build targets to only "win64".
+        #### Original statement: target: [win64,linux64,linuxarm64]
         target: [win64]
-        # 2022 Nov 12 CF: Temporarily limiting build variants to only "gpl-shared 4.4".
-        # Original statement: variant: [gpl,lgpl,gpl 4.4,gpl 5.1,lgpl 4.4,lgpl 5.1,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,lgpl-shared 4.4,lgpl-shared 5.1]       
+        #### 2022 Nov 12 CF: Temporarily limiting build variants to only "gpl-shared 4.4".
+        #### Original statement: variant: [gpl,lgpl,gpl 4.4,gpl 5.1,lgpl 4.4,lgpl 5.1,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,lgpl-shared 4.4,lgpl-shared 5.1]       
         variant: [gpl-shared 4.4]
     steps:
       - name: Checkout
@@ -150,11 +153,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 2022 Nov 12 CF: Temporarily limiting build targets to only "win64".
-        # Original statement: target: [win64,linux64,linuxarm64]
+        #### 2022 Nov 12 CF: Temporarily limiting build targets to only "win64".
+        #### Original statement: target: [win64,linux64,linuxarm64]
         target: [win64]
-        # 2022 Nov 12 CF: Temporarily limiting build variants to only "gpl-shared 4.4".
-        # Original statement: variant: [gpl,lgpl,gpl 4.4,gpl 5.1,lgpl 4.4,lgpl 5.1,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,lgpl-shared 4.4,lgpl-shared 5.1]       
+        #### 2022 Nov 12 CF: Temporarily limiting build variants to only "gpl-shared 4.4".
+        #### Original statement: variant: [gpl,lgpl,gpl 4.4,gpl 5.1,lgpl 4.4,lgpl 5.1,gpl-shared,lgpl-shared,gpl-shared 4.4,gpl-shared 5.1,lgpl-shared 4.4,lgpl-shared 5.1]       
         variant: [gpl-shared 4.4]
     steps:
       - name: Checkout
@@ -214,11 +217,12 @@ jobs:
           hub release create $(for a in latest_artifacts/*; do echo -a $a; done) -m "$NAME" -t "master" "$TAGNAME"
         env:
           GITHUB_TOKEN: ${{ github.token }}
-      # 2022 Nov 12 CF: Disabling "Update Wiki" step, because I don't have a wiki.
-      #- name: Update Wiki
-      #  run: ./util/update_wiki.sh artifacts ${{ steps.create_release.outputs.tag_name }}
-      #  env:
-      #    GITHUB_TOKEN: ${{ github.token }}
+      #### 2022 Nov 12 CF: Disabling "Update Wiki" step, because I don't have a wiki.
+      #### Original code:
+      ####    - name: Update Wiki
+      ####      run: ./util/update_wiki.sh artifacts ${{ steps.create_release.outputs.tag_name }}
+      ####      env:
+      ####        GITHUB_TOKEN: ${{ github.token }}
       - name: Prune old releases
         run: ./util/prunetags.sh
         env:
